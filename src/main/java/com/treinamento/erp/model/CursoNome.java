@@ -9,6 +9,7 @@ public enum CursoNome {
     ENG("Engenharia");
 
     private String descricao;
+
     CursoNome(String descricao){
         this.descricao = descricao;
     }

@@ -1,30 +1,161 @@
 package com.treinamento.erp.controller;
-
-import com.treinamento.erp.dao.AlunoDao;
 import com.treinamento.erp.model.Aluno;
 
-import javax.faces.application.FacesMessage;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+
+import com.treinamento.erp.repository.AlunoRepository;
 import com.treinamento.erp.util.FacesMessages;
+import org.primefaces.PrimeFaces;
 
 @Named("gestaoAlunoBean")
 @ViewScoped
 public class GestaoAlunoBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private FacesMessages facesMessages;
+    private AlunoRepository repository = AlunoRepository.obterInstancia();
 
-    @Inject
-    private AlunoDao alunoDao;
+    private FacesMessages messages;
+
+    private String modalString;
 
     private Aluno aluno;
-    private List<Aluno> alunos;
+    private List<Aluno> listaAlunos;
 
+    private String termoPesquisa;
 
+    private Aluno alunoValidacao;
+
+    @PostConstruct
+    public void init() {
+        this.messages = new FacesMessages();
+        this.listaAlunos = repository.getDadosAlunos();
+        this.aluno = new Aluno();
+        this.alunoValidacao = new Aluno();
+    }
+
+    //Ex - 1
+    public void validarAluno(){
+        this.modalString = "";
+        boolean flag = false;
+        if(alunoValidacao.getNomeAluno() == null || alunoValidacao.getNomeAluno().trim().equals("")){
+            modalString += "Nome é obrigatório\n";
+        }
+
+        if(alunoValidacao.getDataNascimento() == null){
+            modalString += "Data de nascimento inválido!\n";
+        }
+
+        for(Aluno aluno : listaAlunos){
+            if(alunoValidacao.getNomeAluno().equalsIgnoreCase(aluno.getNomeAluno())
+                    && alunoValidacao.getDataNascimento().equals(aluno.getDataNascimento())){
+                flag = true;
+            }
+        }
+
+        if(flag){
+            modalString += "Aluno encontrado!\n";
+            PrimeFaces.current().ajax().addCallbackParam("validar", true);
+        } else {
+            modalString += "Aluno não encontrado\n";
+            PrimeFaces.current().ajax().addCallbackParam("validar", true);
+        }
+    }
+
+    public String getModalString() {
+        return modalString;
+    }
+
+    public void setModalString(String modalString) {
+        this.modalString = modalString;
+    }
+
+    public Aluno getAlunoValidacao() {
+        return alunoValidacao;
+    }
+
+    public void setAlunoValidacao(Aluno alunoValidacao) {
+        this.alunoValidacao = alunoValidacao;
+    }
+
+    public List<Aluno> getListaAlunos() {
+        return listaAlunos;
+    }
+
+    public void setListaAlunos(List<Aluno> listaAlunos) {
+        this.listaAlunos = listaAlunos;
+    }
+
+    public FacesMessages getMessages() {
+        return messages;
+    }
+
+    public void setMessages(FacesMessages messages) {
+        this.messages = messages;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+    }
+
+    public String getTermoPesquisa() {
+        return termoPesquisa;
+    }
+
+    public void setTermoPesquisa(String termoPesquisa) {
+        this.termoPesquisa = termoPesquisa;
+    }
+
+    public AlunoRepository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(AlunoRepository repository) {
+        this.repository = repository;
+    }
+
+    public void prepararTodosAlunos(){
+        listaAlunos = repository.getDadosAlunos();
+    }
+
+    public void salvarAluno() {
+        repository.adicionarAluno(aluno);
+    }
+
+    public void deletarAluno(){
+        repository.removerAluno(aluno);
+    }
+
+    public void pesquisar(){
+        List<Aluno> resultado = new ArrayList<>();
+        for(Aluno a: repository.getDadosAlunos()){
+            if(a.getNomeAluno().equalsIgnoreCase(termoPesquisa)){
+                resultado.add(a);
+            }
+        }
+        listaAlunos = resultado;
+        if(listaAlunos.isEmpty()){
+            messages.info("Sua consulta não retornou registros");
+        }
+    }
+
+    public void prepararNovoAluno(){
+        aluno = new Aluno();
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.treinamento.erp.model;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -8,33 +10,38 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
-@Table(name = "aluno")
+
 public class Aluno implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotEmpty
     private Long id;
 
     @NotEmpty
-    @Column(name = "nome_aluno", nullable = false)
     private String nomeAluno;
 
-    @NotNull
-    @Column(name = "cpf", nullable = false, length = 11)
+    @CPF
     private String cpf;
 
     @NotNull
     @Past
     @Temporal(TemporalType.DATE)
-    @Column(name = "data_nascimento", nullable = false)
     private Date dataNascimento;
 
-    @NotEmpty
-    @Enumerated(EnumType.STRING)
-    @Column(name = "curso")
+    @NotNull
     private CursoNome curso;
+
+    public Aluno() {
+
+    }
+
+    public Aluno(Long id, String nomeAluno, String cpf, Date dataNascimento, CursoNome curso) {
+        this.id = id;
+        this.nomeAluno = nomeAluno;
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+        this.curso = curso;
+    }
 
     public Long getId() {
         return id;
@@ -92,6 +99,10 @@ public class Aluno implements Serializable {
     public String toString() {
         return "Aluno{" +
                 "id=" + id +
+                ", nomeAluno='" + nomeAluno + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", curso=" + curso +
                 '}';
     }
 }
