@@ -14,13 +14,12 @@ import java.util.Objects;
 public class Aluno implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NotEmpty
+    @NotNull
     private Long id;
 
     @NotEmpty
     private String nomeAluno;
 
-    @CPF
     private String cpf;
 
     @NotNull

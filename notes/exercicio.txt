@@ -5,7 +5,7 @@ Projeto para treinamento JSF
 
     - Criar um popup ou modal com a mensagem de erro
 
-    - Criar um popup com um campo digitável e retornar este campo tela principal
+    - Criar um popup com um campo digitável e retornar este campo na tela principal
 
     - Criar um combo com cpf/cnpj. Ao escolher uma das opções, apresentar os campos na tela.
 

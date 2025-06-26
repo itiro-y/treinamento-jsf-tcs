@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import com.treinamento.erp.model.CursoNome;
 import com.treinamento.erp.repository.AlunoRepository;
 import com.treinamento.erp.util.FacesMessages;
 import org.primefaces.PrimeFaces;
@@ -135,6 +136,10 @@ public class GestaoAlunoBean implements Serializable {
 
     public void salvarAluno() {
         repository.adicionarAluno(aluno);
+        this.listaAlunos = repository.getDadosAlunos();
+
+        messages.info("Aluno salvo com sucesso!");
+        PrimeFaces.current().ajax().update(Arrays.asList("formTop:alunosDataTable", "formTop:messagesForm"));
     }
 
     public void deletarAluno(){
@@ -156,6 +161,10 @@ public class GestaoAlunoBean implements Serializable {
 
     public void prepararNovoAluno(){
         aluno = new Aluno();
+    }
+
+    public CursoNome[] tiposCurso(){
+        return CursoNome.values();
     }
 
 }

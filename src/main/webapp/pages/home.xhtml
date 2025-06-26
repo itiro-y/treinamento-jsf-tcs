@@ -15,9 +15,81 @@
         <f:viewAction action="#{gestaoAlunoBean.prepararNovoAluno}" />
     </f:metadata>
 
-    <h:form>
+
+    <!-- FORM TOP -->
+    <h:form id="formTop">
+
+        <!-- Message -->
         <p:messages id="messagesForm" />
 
+        <!-- Toolbar -->
+        <p:toolbar id="toolbar">
+            <f:facet name="left">
+
+                <p:commandButton value="Novo"
+                                 action="#{gestaoAlunoBean.prepararNovoAluno}"
+                                 oncomplete="PF('novoAlunoDialogWidgetVar').show(); return false;"
+                                 update="" process="@this"/>
+
+            </f:facet>
+        </p:toolbar>
+
+        <!-- Dialog Novo Aluno -->
+        <p:dialog id="novoAlunoDialog" header="Novo Aluno" widgetVar="novoAlunoDialogWidgetVar"
+                  modal="true" resizable="false" closeOnEscape="true">
+
+            <!-- Messages Novo Aluno -->
+            <p:messages id="novoAlunoMessages" />
+
+            <p:panelGrid id="panelGridNovoAluno" columns="2">
+
+                <!-- ID - Novo Aluno -->
+                <h:outputText value="ID: " for="idNovoAluno"/>
+                <p:inputText id="idNovoAluno" value="#{gestaoAlunoBean.aluno.id}" required="true"/>
+
+                <!-- Nome - Novo Aluno -->
+                <h:outputText value="Nome: " for="nomeNovoAluno"/>
+                <p:inputText id="nomeNovoAluno" value="#{gestaoAlunoBean.aluno.nomeAluno}" required="true"/>
+
+                <!-- CPF - Novo Aluno -->
+                <h:outputText value="CPF: " for="cpfNovoAluno"/>
+                <p:inputText id="cpfNovoAluno" value="#{gestaoAlunoBean.aluno.cpf}" required="true"/>
+
+                <!-- Data de Nascimento - Novo Aluno -->
+                <h:outputText value="Data de Nascimento: " for="dataNovoAluno"/>
+                <p:calendar id="dataNovoAluno"
+                            pattern="dd/MM/yyyy"
+                            size="30"
+                            value="#{gestaoAlunoBean.aluno.dataNascimento}"
+                            required="true"/>
+
+                <!-- Curso - Novo Aluno -->
+                <h:outputText value="Curso: " for="cursoNovoAluno"/>
+                <p:selectOneMenu id="cursoNovoAluno" value="#{gestaoAlunoBean.aluno.curso}" required="true">
+                    <f:selectItem itemLabel="Selecione..."/>
+                    <f:selectItems value="#{gestaoAlunoBean.tiposCurso()}"
+                                   var="tipoCurso"
+                                   itemLabel="#{tipoCurso.descricao}"
+                                   itemValue="#{tipoCurso}"/>
+                </p:selectOneMenu>
+
+                <!-- Botao Salvar - Novo Aluno -->
+                <p:commandButton id="salvarNovoAlunoBotao"
+                                 value="Salvar"
+                                 action="#{gestaoAlunoBean.salvarAluno}"
+                                 oncomplete="if (!args.validationFailed)
+                                                PF('novoAlunoDialogWidgetVar').hide();
+                                            else
+                                                PF('novoAlunoDialogWidgetVar').show();"
+                                 process="novoAlunoDialog"
+                                 update="novoAlunoMessages alunosDataTable">
+                    <p:resetInput target="novoAlunoDialog" />
+                </p:commandButton>
+            </p:panelGrid>
+
+        </p:dialog>
+
+        <!-- Datatable -->
         <p:dataTable id="alunosDataTable" value="#{gestaoAlunoBean.listaAlunos}"
                      var="aluno" emptyMessage="Nenhuma informação a ser exibida"
                      paginator="true" rows="10" paginatorPosition="bottom"
@@ -48,23 +120,30 @@
 
         </p:dataTable>
 
+    </h:form>
+
         <p:spacer height="20" />
+
+    <!-- FORM BOTTOM -->
+    <h:form id="formBottom">
 
         <!-- 1. Criar um campo de texto, mais um de data, com um botão e realizar a validação dos campos -->
         <!-- 2. Criar um popup ou modal com a mensagem de erro -->
+        <!-- Criar um popup com um campo digitável e retornar este campo na tela principal -->
         <p:panel id="panelValidacao" header="1. Validar o Nome e Data de Nascimento">
             <p:messages id="messagePanel" />
 
-            <p:dialog header="Validação de Aluno" widgetVar="dialogValidacaoAluno"
+            <!-- Dialog Validacao -->
+            <p:dialog icon="pi pi-user" header="Validação de Aluno" widgetVar="dialogValidacaoAluno"
                       closable="true" closeOnEscape="true" modal="true" resizable="false">
                 <h:outputText value="#{gestaoAlunoBean.modalString}" />
             </p:dialog>
 
+            <!-- Panel Grid Validacao -->
             <p:panelGrid id="panelGridValidacao" columns="2">
-
                 <h:outputText value="Nome: " for="nome"/>
                 <p:inputText id="nome" value="#{gestaoAlunoBean.alunoValidacao.nomeAluno}"
-                             required="true" label="Nome"/>
+                             required="true" label="Nome" />
 
                 <h:outputText value="Data de Nascimento: " for="data"/>
                 <p:datePicker id="data" value="#{gestaoAlunoBean.alunoValidacao.dataNascimento}" required="true"
@@ -73,7 +152,6 @@
                 <h:outputText />
                 <p:commandButton value="Validar" action="#{gestaoAlunoBean.validarAluno}"
                                  oncomplete="if (args.validar) PF('dialogValidacaoAluno').show();"
-
                                  update="panelValidacao" process="@form"/>
             </p:panelGrid>
         </p:panel>
