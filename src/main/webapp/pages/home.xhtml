@@ -33,7 +33,9 @@
                                  oncomplete="PF('novoAlunoDialogWidgetVar').show();"
                                  update="novoAlunoDialog"
                                  process="@this"
-                                 disabled="#{not empty gestaoAlunoBean.aluno}"/>
+                                 disabled="#{not empty gestaoAlunoBean.aluno}">
+                    <p:resetInput target="novoAlunoDialog" />
+                </p:commandButton>
 
                 <!-- Botao Editar - Toolbar -->
                 <p:commandButton value="Editar"
@@ -45,10 +47,24 @@
                     <p:resetInput target="novoAlunoDialog" />
                 </p:commandButton>
 
-                <p:commandButton value="Cancelar seleção"
-                                 icon="fa fa-times"
-                                 action="#{gestaoAlunoBean.esvaziarAluno}"
-                                 update="formTop:toolbar formTop:alunosDataTable" />
+                <!-- Botao Deletar - Toolbar -->
+                <p:commandButton value="Deletar"
+                                 icon="fa fa-trash"
+                                 disabled="#{empty gestaoAlunoBean.aluno}"
+                                 actionListener="#{gestaoAlunoBean.deletarAluno}"
+                                 update="formTop:alunosDataTable"
+                                 process="@this">
+                    <p:resetInput target="novoAlunoDialog" />
+                </p:commandButton>
+
+                <!-- Botao Exportar Excel - Toolbar -->
+                <p:commandButton value="Exportar para Excel"
+                                 icon="fa fa-file-excel-o"
+                                 update=""
+                                 process="@this"
+                                 ajax="false">
+                    <p:dataExporter target="formTop:alunosDataTable" type="xls" fileName="TabelaAlunos"/>
+                </p:commandButton>
 
             </f:facet>
         </p:toolbar>
