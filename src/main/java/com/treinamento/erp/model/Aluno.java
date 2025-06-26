@@ -20,6 +20,7 @@ public class Aluno implements Serializable {
     @NotEmpty
     private String nomeAluno;
 
+    @CPF
     private String cpf;
 
     @NotNull
@@ -31,7 +32,7 @@ public class Aluno implements Serializable {
     private CursoNome curso;
 
     public Aluno() {
-
+        this.curso = CursoNome.NADA;
     }
 
     public Aluno(Long id, String nomeAluno, String cpf, Date dataNascimento, CursoNome curso) {

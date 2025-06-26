@@ -42,7 +42,7 @@ public class GestaoAlunoBean implements Serializable {
     public void init() {
         this.messages = new FacesMessages();
         this.listaAlunos = repository.getDadosAlunos();
-        this.aluno = new Aluno();
+        this.aluno = null;
         this.alunoValidacao = new Aluno();
     }
 
@@ -135,9 +135,18 @@ public class GestaoAlunoBean implements Serializable {
     }
 
     public void salvarAluno() {
-        repository.adicionarAluno(aluno);
-        this.listaAlunos = repository.getDadosAlunos();
-
+        if(aluno.getId() != null){
+            for(int i = 0; i < listaAlunos.size(); i++){
+                if(listaAlunos.get(i).getId().equals(aluno.getId())){
+                    listaAlunos.set(i, aluno);
+                    break;
+                }
+                else{
+                    listaAlunos.add(aluno);
+                    break;
+                }
+            }
+        }
         messages.info("Aluno salvo com sucesso!");
         PrimeFaces.current().ajax().update(Arrays.asList("formTop:alunosDataTable", "formTop:messagesForm"));
     }
@@ -165,6 +174,14 @@ public class GestaoAlunoBean implements Serializable {
 
     public CursoNome[] tiposCurso(){
         return CursoNome.values();
+    }
+
+    public boolean isAlunoSelecionado(){
+        return aluno != null && aluno.getId() != null;
+    }
+
+    public void esvaziarAluno(){
+        aluno = null;
     }
 
 }

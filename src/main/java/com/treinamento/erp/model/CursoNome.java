@@ -6,7 +6,8 @@ public enum CursoNome {
     ADS("Análise e Desenvolvimento de Software"),
     PSI("Psicologia"),
     MED("Medicina"),
-    ENG("Engenharia");
+    ENG("Engenharia"),
+    NADA("");
 
     private String descricao;
 
