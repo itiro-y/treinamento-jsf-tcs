@@ -138,11 +138,14 @@ public class GestaoAlunoBean implements Serializable {
         if(aluno.getId() != null){
             for(int i = 0; i < listaAlunos.size(); i++){
                 if(listaAlunos.get(i).getId().equals(aluno.getId())){
+                    System.out.println("FLAG 1");
                     listaAlunos.set(i, aluno);
                     break;
                 }
                 else{
                     listaAlunos.add(aluno);
+                    prepararTodosAlunos();
+                    printListaAlunos();
                     break;
                 }
             }
@@ -170,6 +173,7 @@ public class GestaoAlunoBean implements Serializable {
 
     public void prepararNovoAluno(){
         aluno = new Aluno();
+        aluno.setCpf("000.000.000-00");
     }
 
     public CursoNome[] tiposCurso(){
@@ -184,4 +188,10 @@ public class GestaoAlunoBean implements Serializable {
         aluno = null;
     }
 
+    public void printListaAlunos(){
+        for(Aluno a : listaAlunos){
+            System.out.println(a);
+        }
+        System.out.println();
+    }
 }

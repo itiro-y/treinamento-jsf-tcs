@@ -111,6 +111,12 @@
       <version>3.6.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.primefaces.extensions</groupId>
+      <artifactId>primefaces-extensions</artifactId>
+      <version>13.0.7</version> <!-- Verifique se é compatível com sua versão do PrimeFaces -->
+    </dependency>
+
   </dependencies>
 
   <build>

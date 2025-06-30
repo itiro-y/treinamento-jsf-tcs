@@ -1,0 +1,300 @@
+Link git: https://github.com/leandrocgsi/microservices-with-spring-cloud-and-java-erudio
+
+REST
+- Representational State Transfer
+    - arquitetura de softwaare para sistemas distribuidos de hipermidia como o WWW constraints
+        - Cliente-servidor
+        - Stateless server
+        - Cacheable
+        - Interface uniforme
+        - Sistema em camadas
+        - Codigo sob Demanda (opcional)
+
+- Formatos suportados pelo REST
+    - XML, JSON, CSV, Texto, Imagens, HTML, PDF, Binario, etc
+
+    - Vantagens
+        - Leve
+        - Desenvolvimento rapido
+        - Aplicativo mobile utiliza REST
+
+
+Request e Response
+    - User <-HTTP-> Server
+
+Parametros
+    - URL (Params)
+    - Header (headers)
+        - Postman
+    - Body (JSON, ...)
+
+HTTP Status Codes
+    - 1xx Informacionais
+    - 2xx Sucesso
+    - 3xx Redirecionamento
+    - 4xx Erro de Client
+    - 5xx Erro de Server
+
+Verbos HTTP (CRUD)
+    - CREATE - POST
+        - Parametros - URL, Header, Body
+    - READ - GET
+        - Parametros - URL e Header
+    - UPDATE - PUT or PATCH
+        - Parametros - URL, Header, Body
+    - DELETE
+        - Parametros - URL, Header, Body
+
+Verbos menos conhecidos
+    - PATCH
+        - realizar updates parciais
+        - colisoes entre multiplas patch requests
+    - HEAD
+        - similar ao GET
+    - TRACE
+        - recuperar conteudo (debug)
+    - OPTIONS
+        - operacoes suportadas pela API
+    - CONNECT
+        - estabelecer conexao entre cliente e servidor
+
+Niveis de maturidade de Richardson (rest vs restful)
+    - Restful - estado mais alto do rest
+        - atender no minimo 4 niveis de maturidade
+    - Levels
+        - 0: The Swamp of POX (Pox - old XML)
+        - 1: Resources (Endpoints)
+        - 2: HTTP Verbs (Post, Get, Delete, Put)
+        - 3: Hypermedia Controls
+        - 4: Glory of REST
+
+HATEOAS
+    - Hypermedia As The Engine Of Application State
+    - Maturidade total do rest (Restful)
+
+// ==================================================================================== //
+
+Spring Framework
+    - Desenvolvido em 2002 por Rod Johnson
+    - Inovações
+        - Injecao de dependencias (DI)
+        - Inversao de controle (IoC)
+    - Composto por varios modulos
+        - Spring Core
+        - Spring AOP
+        - Spring ORM
+        - Spring Security
+    - Altamente extensivel e compativel com outras tecnologias
+        - Hibernate
+        - JPA
+        - JMS
+    - VMwaare e Pivotal ajudaram na evolucao
+
+Spring Boot
+    - Lancado em 2014
+    - Capacidade de gerar aplicacoes autossuficientes, com um servidor de aplicacao embutido
+    - Convencoes
+        - Gestao de dependencias otimizada
+        - Configuracoes automatizadas
+        - Compatibilidade com ferramentas - Maven e Gradle
+        - Garante que todas as versoes das dependencias sejam compativeis
+    - Starters - pacotes predefinidos de dependencias
+    - Actuators
+        - Funcionalidades que monitoram e gerenciam a aplicacao durante a execucao
+    - Perfeita integraca a arquiteturas de microservicos
+        - Spring cloud e security
+
+
+// ==================================================================================== //
+
+Microservicos
+    - Um estilo arquitetural
+    - Alternativa as aplicacoes "monoliticas" tradicionais
+    - Conjunto de pequenos servicos, cada um dos quais sendo executado como um processo
+    independente e cada um dos quais se comunicando com os outros por meio de algum
+    protocolo bem conhecido
+
+    - Definicao do curso
+        - Sao uma aplicacao unica, desenvolvida como um conjunto de pequenos servicos
+            - cada um executadando o seu proprio processo
+            - e se comunicando com mecanismos leves
+        - Escrito, implantado, dimensionado e mantido separadamente
+        - Sao usados para encapsular funcionalidades ou regras de negocios
+        - Podem ser substituidos e atulaizados de forma independente
+
+    - O que não é:
+        - O mesmo que SOA (Service Oriented Architecture)
+
+    - Exemplo
+        - Aplicacao de Carrinho de Compras
+            - Metodos para:
+                - Pesquisar produtos
+                - Catalogo de produtos
+                - Gerenciamento de estoque
+                - Carrinho de compras
+                - Checkout
+                - etc.
+
+            - Arquitetura Monolitica (utilizando o MVC)
+                - JDBC (Banco Relacional)
+                - DAOs
+                - Services
+                - Controllers
+                - Browser
+
+                - Desafios de uma aplicacao monolitica
+                    - Diferentes tipos de clients (mobile, web, tablet, etc.)
+                    - Diferentes tipos de redes (moveis - menos capacidade)
+                    - Diferentes de persistencias do backend
+                    - Base de codigo unica, implantacao, controle de versao, tamanho da equipe
+                        - Escalonamento do codigo -> escalonamento da equipe (dificil de gerenciar)
+                        - Necessario um tipo para o merge do codigo das equipes
+                        - Problema: bug descoberto tardiamente nos teste de aceitacao do user
+                            - Constante pressao na equipe de desenvolvimento -> bagunça e pressao
+
+                - PROS
+                    - Um unico executavel da aplicacao
+                        - facil de compreender, mas dificil de assimilar
+                        - deve ser escrito em uma unica linguagem
+                    - Modularizacao de acordo com linguagem ou framework
+                        - Limitada as estruturas da linguagem (pacotes, classes, jars, wars,
+                        functions, namespaces, frameworks etc)
+                        - Diferentes servicos / tecnologias de armazenamento
+                            - RDBMS, mensageria, email, etc
+
+                    - Facil de compreender
+                    - Facil de testar
+                    - Facil de implantar com uma unica unidade
+                    - Facil de gerenciar (ate certo ponto)
+                    - Facil de gerenciar mudancas (ate certo ponto)
+                    - Facil de escalar
+                    - Complexidade gerenciada de acordo com as estruturas da linguagem
+
+                - CONTRAS
+                    - Estarmos presos a uma linguagem
+                        - Nossa aplicacao esta presa a uma unica stack de tecnologia
+                    - Assimilacao
+                        - Um unico dev nao consegue assimilar uma grande base de codigo
+                        - uma unica equipe nao pode gerenciar uma unica aplicacao grande
+                            - regra das 2 pizzas da Amazon
+                    - Implantacao como unidade unica
+                        - Nao é possivel implantar independentemente uma unica mudanca em um
+                        unico componente
+                        - As mudancas sao "refens" de outra mudanca
+
+
+    - Entendendo uma Arquitetura de Microservicos
+        - API Gateway
+            - interface facil de lidar, conectando cliente e lidar com a complexidade de se
+            conectar com todos os microservicos no servidor
+            - cache, autentificacao, etc
+
+        - Componentizacao por meio de servicos
+            - Independente das estruturas de lingagem
+            - Onde os servicos sao pequenos, aplicacaoes implantaveis de forma independente
+            - Forca o design de interfaces claras
+            - Mudancas com escopo no servico afetado
+
+        - Os servicos sao pequenas aplicacoes implantaveis de forma independente
+            - Podem nao possuir uma unica base de codigo
+            - Nao (necessariamente) uma unica linguagem / framework
+
+        - Se comunicam por
+            - HTTP, TCP, UDP, Menssageria, etc
+                - Payloads - JSON, BSON, XML, ...
+            - Forca o design de interfaces claras
+            - Arquitetura nativa para nuvem da Netflix - comunicando-se por meio de APIs
+                - Nao tem um banco de dados comum
+
+        - Objetivo
+            - Encapsular as necessidades de negocio
+            - Nao é baseado em uma stack de tecnologias
+            - Fatia verticais de acordo com as funcionalidades ou regras de negocio
+            - Ainda podemos ter servicos que realizam tarefas puramente tecnicas (servico de email)
+            - Adequado para equipes multifuncionais
+
+            - Exemplo
+                - Search - PUT
+                - Reviews - GET POST
+                - Cart - POST GET POST DELETE PUT DELETE
+                - Contact - GET POST
+
+
+        - São faceis de compreender, alterar, testar, versionar, implantar, gerenciar, refatorar
+        ou mesmo substituir
+            - por equipe pequenas e multifuncionais
+
+        - Governancia Descentralizada
+            - Ferramenta para cada serviço
+            - Serviços evoluem em velocidades diferentes
+            - Faça com que os serviços sejam (Tolerant Readers)
+            - Contratos Consumer-Driven
+            - Antitese da ESB
+                - Serviços nao são orquestrados, mas sim coreografados
+
+        - Persistencia Poliglota
+            - Liberade para usar a ferramenta mais adequada para cada serviço
+                - Pode ser muito controverso
+                - Nao existem transacoes
+
+
+    Vantagens
+        - Facil de compreender (dificil de compreender o todo)
+        - Muito facil de tesar, implantar, gerenciar, versionar e escalar servicos unicos
+        - ciclo de mudanças desaclopado
+        - mais facil de escalar os times de desenvolvimento
+        - liberdade para experiementar novas linguagens ou frameworks
+
+    Desvantagens
+        - A complexidade foi movida para fora da aplicacao e foi distribuida entre os microsservicos
+        - Os servicos podem ficar eventualmente indisponivel
+            - Projetando para falhas, circuit breakers
+            - é necessario muito mais monitoramento
+        - Chamadas remotas mais caras do que chamadas de metodos (recurso e latencia)
+        - Transações - devem depender de consistencia eventual - adeus ACID
+        - As funcionalidades estao distribuidas por varios serviços
+        - A gestao da mudança torn-se um desafio diferente
+            - Precisa considerar a interação entre os serviços
+            - Gerenciamento de dependecias / versoes
+        - O refactory ira depender dos Module Boundaries
+
+    Falacias da Computacao Distribuida
+        1. A rede é confiavel
+        2. Latencia é zero
+        3. Largura de banda infinita
+        4. A rede é segura
+        5. A Topologia não muda
+        6. Existe um adiministrador
+        7. Custo de transporte é zero
+        8. A rede é homogênea
+
+    Como quebrar uma aplicação monolitica em microsserviços
+        - Principal ponto - Funcionalidade de negocio
+            - De acordo com o substantivo (catalog, cart, customer)
+            - De acordo com o verbo (search, checkout, shipping)
+            - Principio da responsabilidade unica (Single Responsibility Principle)
+            - Principio do contexto limitado (bounded context)
+
+        - O tamanho não é um fator determinante
+            - O desenvolvedor individual pode assimilar
+            - Construido para ser gerenciado por uma pequena equipe
+            - Documentação pequena
+            - Poucos segredos
+
+
+
+// ==================================================================================== //
+
+Spring Cloud
+
+Spring Cloud Config
+    - Centralização e gestão eficiente de configurações
+    - Composto por duas partes
+        - Config Server
+            - atua como um servidor central de configurações, armazena as propriedades necessaria
+            para os serviços, repositorio git
+        - Config Clients
+            - aplicações que consomen as configurações do servidor. Integração direta, onde os
+            microsserviços obtem suas configurações em tempo de incialização ou até mesmo dinamicamente
+            durante a execução
+
