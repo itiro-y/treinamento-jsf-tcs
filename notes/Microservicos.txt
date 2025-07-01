@@ -298,3 +298,22 @@ Spring Cloud Config
             microsserviços obtem suas configurações em tempo de incialização ou até mesmo dinamicamente
             durante a execução
 
+Criando o Projeto pelo Spring Initialzr
+    - Spring 3.5.0
+    - Jar
+    - 21 LTS
+    - Dependencias
+        - Spring Web
+        - Spring Boot Dev Tools (Live reloading)
+        - Actuator
+        - Config Client
+
+Spring Actuator (DevOps e entregas continuas)
+    - Monitoramento e gestao de aplicacoes
+    - Endpoints que interagem diretamente com o estado interno da aplicacao
+    - Permite personalizar quais endpoints estarao disponiveis, dados expostos ou protegidos
+    - Protege endpoints sensiveis, permitindo acesso restrito
+    - Endpoint -> Health (essencial pro kubernets)
+    - Endpoint -> Metrics
+
+
