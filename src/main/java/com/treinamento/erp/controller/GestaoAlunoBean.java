@@ -69,7 +69,7 @@ public class GestaoAlunoBean implements Serializable {
             modalString += "Aluno encontrado!\n";
             PrimeFaces.current().ajax().addCallbackParam("validar", true);
         } else {
-            modalString += "Aluno não encontrado\n";
+            modalString += "Erro: Aluno não encontrado\n";
             PrimeFaces.current().ajax().addCallbackParam("validar", true);
         }
     }
@@ -135,27 +135,28 @@ public class GestaoAlunoBean implements Serializable {
     }
 
     public void salvarAluno() {
+        boolean flag = true;
         if(aluno.getId() != null){
             for(int i = 0; i < listaAlunos.size(); i++){
                 if(listaAlunos.get(i).getId().equals(aluno.getId())){
-                    System.out.println("FLAG 1");
                     listaAlunos.set(i, aluno);
-                    break;
-                }
-                else{
-                    listaAlunos.add(aluno);
-                    prepararTodosAlunos();
-                    printListaAlunos();
+                    flag = false;
+                    messages.info("Aluno editado com sucesso!");
                     break;
                 }
             }
+            if(flag){
+                listaAlunos.add(aluno);
+                messages.info("Aluno salvo com sucesso!");
+            }
         }
-        messages.info("Aluno salvo com sucesso!");
         PrimeFaces.current().ajax().update(Arrays.asList("formTop:alunosDataTable", "formTop:messagesForm"));
     }
 
     public void deletarAluno(){
         repository.removerAluno(aluno);
+        messages.info("Aluno: " + aluno.getNomeAluno() + " deletado(a) com sucesso!");
+        PrimeFaces.current().ajax().update(Arrays.asList("formTop:alunosDataTable", "formTop:messagesForm"));
     }
 
     public void pesquisar(){
@@ -194,4 +195,5 @@ public class GestaoAlunoBean implements Serializable {
         }
         System.out.println();
     }
+
 }
