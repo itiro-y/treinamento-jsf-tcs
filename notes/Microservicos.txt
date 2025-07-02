@@ -316,4 +316,39 @@ Spring Actuator (DevOps e entregas continuas)
     - Endpoint -> Health (essencial pro kubernets)
     - Endpoint -> Metrics
 
+Flyway
+    - Sistema de gestao e gerenciamento de sistemas de bancos de dados
+
+Feign
+    - Facilita a comunicacao entre dois bancos de dados por meio de uma chamada de proxy
+
+// ==================================================================================== //
+
+Eureka Server
+    - Desafio - gerenciar diferentes servicos - se encontram e se comunicam
+    - Originalmente pela Netflix
+    - Service registry que desempenha exatamente esse papel
+    - Diretorio centralizado para regisrar e localizar servicos em uma arquitetura de microsservicos
+    - Atua como uma "central de enderecos", permitindo que os servicos nao precisem depender de configs estaticas de URLs
+    - Quando um servico se registra no Eureka, ele informa seu endereco e dados relevantes, permitindo que outros servicos
+    o localizem
+    - Faz parte do Spring Cloud Netflix
+
+    - Utiliza o modelo de service registry e service discovery
+    - Quando um servico se inicia - ele se registra no Eureka com IP, porta e metadados (self-registration)
+    - Abordagem elimina dependecias rigidas e melhora flexibilidade e escalabilidade
+    - Modelo heartbeat, com sinais periodicos enviados pelo servicos
+    - Se os sinais cessarem, o Eureka presume falha e remove o servico do registro
+
+    - Resolve o problema de volatilidade das instancias
+    - Servicos sao localizados independentemente da infraestrutura, promovendo resiliencia
+
+    - Simples e facil integracao com o Spring Cloud
+    - Ferramentas associadas ao Eureka que foram depreciadas
+        - Load Balancing Moderno -> alternativa -> Spring Cloud LoadBalancer
+
+    - Alternativas mais modernas -> Spring Cloud Kubernetes
+    - Essa ferramenta usa padroes nativos de containers e orquestradores como o Kubernetes
+    - Com isso, elimina-se a necessidade de um service registry adicional, aproveitando o discovery nativo do Kubernets
+
 
