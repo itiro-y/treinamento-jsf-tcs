@@ -352,3 +352,144 @@ Eureka Server
     - Com isso, elimina-se a necessidade de um service registry adicional, aproveitando o discovery nativo do Kubernets
 
 
+// ==================================================================================== //
+
+
+Docker
+
+    Estrutura:
+        Docker Client
+            - docker build
+            - docker pull
+            - docker run
+        Docker Host (Docker Engine - Daemon)
+            - Images
+            - Containers
+        Registry
+            - Docker Hub
+                - Repositorios
+
+    - docker run hello-world
+    - docker --version
+
+    - Dockerfile
+        - Texto plano
+        - Sintaxe Simples
+        - Instrucoes de como construir uma imagem
+        - Sensivel a arquitetura da aplicacao (local armazenado)
+            - Compilacao da pasta e subpastas (nao colocar no root)
+        - Comando 'docker build'
+            - Constroi uma imagem Docker a partir de das instrucoes contidas no arquivo
+
+        No Dockerfile
+       'FROM eclipse-temurin:21-jdk
+        COPY target/*.jar app.jar
+        ENTRYPOINT ["java","-jar","/app.jar"]'
+
+        - Comandos
+            mvn clean package
+                - criar o jar no target
+
+            docker build -t hello-docker:0.0.1-SNAPSHOT .
+                - criar o docker image
+
+            docker run -p 80:80 -d hello-docker:0.0.1-SNAPSHOT
+                - criar um container apartir de uma imagem
+
+            docker ps
+                - listar containers
+                - '-a' - listar containers parados
+
+            docker images
+                - listar images
+
+            docker tag hello-docker:0.0.1-SNAPSHOT ayrtonyoshii/hello-docker:0.0.1-SNAPSHOT
+                - fazer a tag
+
+            docker login docker.io
+                - login no terminal
+
+            docker push ayrtonyoshii/hello-docker:0.0.1-SNAPSHOT
+                - push no repositorio de docker hub
+
+            docker run ayrtonyoshii/hello-docker:0.0.1-SNAPSHOT
+                - cria a imagem dando pull no repositorio
+
+            docker run -p 80:80 -d ayrtonyoshii/hello-docker:0.0.1-SNAPSHOT
+                - pull no repository e fazer o container na porta 80 ao mesmo tempo
+
+            docker container stop 0d
+                - parar o container de id __
+
+            docker logs 0
+                - mostra os logs de id __
+
+            docker logs -f id
+                - mostra os logs em tempo real
+
+            docker pull mysql
+                - pull em uma imagem para sua maquina
+
+            docker tag ayrtonyoshii/hello-docker:0.0.1-SNAPSHOT ayrtonyoshii/hello-docker:latest
+                - setando uma imagem para ser a imagem 'latest'
+
+            docker search mysql
+                - procura por imagens que se chamam mysql
+
+            docker search mysql -f is-official=true
+                - procura por imagens com filtros
+
+            docker image history mysql
+                - mostra o historico da imagem
+
+            docker image inspect mysql
+                - mostra um inspect da imagem
+
+            docker image remove mysql / docker rmi mysql
+                - remove a imagem
+                - '-f' força o remove
+
+            docker container pause 15
+                - pausa o container de id __
+
+            docker contaner unpause 15
+                - despausa o container de id __
+
+            docker container inspect 15
+                - inspect no container de id __
+
+            docker container prune
+                - deleta todos os contianer inativos
+
+            docker kill id
+                - mata um container
+
+            docker run -p 80:80 -d --restart=always ayrtonyoshii/hello-docker
+                - restart policy
+                    - assim que o docker inciar o container vai ser iniciado
+                    - mesmo se ele for parado
+                    - interessante para containers que precisam sempre estar em execucao
+
+            docker events
+                - escuta e mostra os eventos nos containers
+                - debugger
+
+            docker top d6
+                - mostra o PID ou processos no container
+
+            docker stats
+                - escuta e mostra o consumo de mem/cpu/etc.
+
+            docker run -p 82:80 -m 512m --cpu-quota 5000  ayrtonyoshii/hello-docker
+                - '-m' -> limita a memoria pra 512mb
+                - '--cpu-quota' -> cpu pra 5%
+
+            docker system df
+                - passa as informacoes do sistema
+
+
+
+
+
+
+
